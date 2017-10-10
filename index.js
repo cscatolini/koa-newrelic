@@ -152,12 +152,10 @@ module.exports = function (newrelic, opts) {
 
 	return function koaNewrelic(ctx, next) {
 
-		// https://github.com/alexmingoia/koa-router/issues/290
-		if (ctx.path) {
-			// origin is _matchedRoute, but koa-router@7.0.1 hasn't this property
+		if (ctx._matchedRoute) {
 			// not macthed to any routes
 			if (ctx.path !== '(.*)') {
-				setTransactionName(ctx.method, ctx.path);
+				setTransactionName(ctx.method, ctx._matchedRoute);
 			}
 		}
 
